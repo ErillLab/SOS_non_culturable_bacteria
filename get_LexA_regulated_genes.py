@@ -14,7 +14,7 @@ startTime=datetime.now()
 
 # Tell to NCBI who I am
 
-Entrez.email = "miquelsanchezosuna@gmail.com"
+Entrez.email = ""
 
 
 # FIMO output
