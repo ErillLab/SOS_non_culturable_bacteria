@@ -53,19 +53,21 @@ def tf2bindingmotif(email_address,database,input_fasta):
     for TF in validated_TF:        
         
         if "WP_" in TF:
-            records = Entrez.read(Entrez.efetch(db="protein", id=TF, rettype='ipg', retmode='xml'))
-            for record in records[0]['ProteinList']:
-                for nucleotide_id in record:
-                    r = nucleotide_id["CDSList"][0][0]
+            try:
+                records = Entrez.read(Entrez.efetch(db="protein", id=TF, rettype='ipg', retmode='xml'))
+                for record in records["IPGReport"]["ProteinList"]:
+                    r = record["CDSList"][0]
                     nucleotide.append(r.attributes["accver"])
-                    if r.attributes == "+":
+                    if r.attributes["strand"] == "+":
                         positions.append(r.attributes["start"])
                         strand.append(1)
                     else:
-                        positions.append(r.attributes["end"])
+                        positions.append(r.attributes["stop"])
                         strand.append(2)
                         
                     break
+            except KeyError:
+                continue
         
         else:
             handle = Entrez.efetch(db="protein", id=TF, rettype="gb", retmode="text")
