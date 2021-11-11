@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+# @author: miquelsanchezosuna
+
 # Load the necessary modules
 
 import os, subprocess, warnings
